@@ -1,10 +1,23 @@
 import logging;logging.basicConfig(level=logging.INFO)
-import asyncio,os,json,time
+import asyncio,os,json,time,aiomysql
 from datetime import datetime
 from aiohttp import web
+import sys
+from orm import Model, StringField, IntegerField,BooleanFiled,FloatFiled,TextFiled
 
+
+
+
+
+
+'''
+webapp 骨架
+'''
+'''
+async web application.
+'''
 def index(request):
-    return web.Response(body=b'<h1>Awesome</h1>')
+    return web.Response(body=b'<h1>Awesome</h1>',content_type='text/html')
 
 @asyncio.coroutine
 def init(loop):
@@ -16,3 +29,21 @@ def init(loop):
 loop=asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
+
+
+
+
+
+
+
+
+
+
+
+class User(Model):
+    __table__='users'
+    id=IntegerField(primary_key=True)
+    name=StringField()
+user = User(id=123, name='machael')
+user.insert()
+users = User.findAll()
